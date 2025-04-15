@@ -5,7 +5,10 @@ function App() {
 
   useEffect(() => {
     const handleGet = async () => {
-      const response = await fetch("https://cloud-production-c442.up.railway.app/users");
+      const LOCAL_URL = "http://localhost:8080/users";
+      const HOST_URL = "https://cloud-production-c442.up.railway.app/users";
+
+      const response = await fetch(HOST_URL);
       const data = await response.json();
       console.log(data);
       setData(data);
