@@ -6,7 +6,7 @@ function App() {
   useEffect(() => {
     const handleGet = async () => {
       const LOCAL_URL = "http://localhost:8080/users";
-      const HOST_URL = "https://cloud-production-c442.up.railway.app/users";
+      const HOST_URL = "https://cloud-zupn.onrender.com/users";
 
       const response = await fetch(HOST_URL);
       const data = await response.json();
