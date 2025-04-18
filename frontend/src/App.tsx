@@ -1,14 +1,20 @@
 import React, { useState, useEffect } from "react";
 
 function App() {
+  // ======== ЗА Энд хэрэгтэй api хаягуудыг бичлээ ==============================================
+  const LOCAL_URL = "http://localhost:8080";
+  const HOST_URL = "https://cloud-zupn.onrender.com";
+  const user = "/users";
+  const place = "/places";
+  const show = "/shows";
+  const ticket = "/tickets";
+  // ============================================================================================
+
   const [data, setData] = useState<any[]>([]);
 
   useEffect(() => {
     const handleGet = async () => {
-      const LOCAL_URL = "http://localhost:8080/users";
-      const HOST_URL = "https://cloud-zupn.onrender.com/users";
-
-      const response = await fetch(HOST_URL);
+      const response = await fetch(HOST_URL + user);
       const data = await response.json();
       console.log(data);
       setData(data);
@@ -18,16 +24,7 @@ function App() {
   }, []);
 
   return (
-    <div
-      style={{
-        margin: "auto",
-        textAlign: "center",
-        fontWeight: 800,
-        alignItems: "center",
-        alignContent: "center",
-        height: "100vh",
-      }}
-    >
+    <div className="text-3xl ">
       <div>It worked here is the data:</div>
       <div>
         {data.map((item: any, index: number) => (
