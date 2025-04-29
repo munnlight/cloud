@@ -1,7 +1,6 @@
 package com.sict.backend.controller;
 
 import com.sict.backend.model.Ticket;
-import com.sict.backend.model.User;
 import com.sict.backend.repo.TicketRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

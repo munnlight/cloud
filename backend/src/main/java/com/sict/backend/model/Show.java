@@ -17,6 +17,8 @@ public class Show {
 
   private String name;
   private Date date;
+  private String imageUrl;
+  private String title;
 
   @ManyToOne
   @JoinColumn(name = "plcid")
@@ -62,5 +64,21 @@ public class Show {
 
   public Place getPlace() {
     return place;
+  }
+
+  public String getImageUrl() {
+    return imageUrl;
+  }
+
+  public void setImageUrl(String imageUrl) {
+    this.imageUrl = imageUrl;
+  }
+
+  public String getTitle() {
+    return title;
+  }
+
+  public void setTitle(String title) {
+    this.title = title;
   }
 }
