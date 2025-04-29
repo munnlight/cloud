@@ -1,10 +1,19 @@
 import React, { useState, useEffect } from "react";
+<<<<<<< HEAD
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Header from "../src/components/header";
 import Home from "./pages/Home";
 import EventDetails from "./pages/EventDetails";
 import MyTickets from "./pages/MyTickets";
 import AdminPanel from "./pages/AdminPanel";
+=======
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Header from "../src/components/header";
+import Home from './pages/Home';
+import EventDetails from './pages/EventDetails';
+import MyTickets from './pages/MyTickets';
+import AdminPanel from './pages/AdminPanel';
+>>>>>>> d79983d1f2f96d6298cf6d0a3f853de7904a52e2
 
 function App() {
   // ======== ЗА Энд хэрэгтэй api хаягуудыг бичлээ ==============================================
