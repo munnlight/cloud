@@ -5,7 +5,7 @@ const EventList = () => {
   const [shows, setShows] = React.useState<any[]>([]);
 
   const fetchShows = async () => {
-    const response = await fetch("http://localhost:8080/shows");
+    const response = await fetch("https://cloud-zupn.onrender.com/shows");
     const data = await response.json();
     console.log(data);
     setShows(data);
