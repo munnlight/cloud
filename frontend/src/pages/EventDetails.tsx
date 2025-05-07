@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Header from '../components/header';
 import Footer from '../components/footer';
 import { useParams } from 'react-router-dom';
+import Modal from '../components/Modal';
 
 interface DeadlineProgressBarProps {
   startDate: Date;
@@ -50,18 +51,36 @@ const DeadlineProgressBar: React.FC<DeadlineProgressBarProps> = ({ startDate, de
   );
 };
 
-const EventDetails = () => {
+interface Show {
+  id: string;
+  name: string;
+  title: string;
+  imageUrl: string;
+  place: { name: string };
+  date: string;
+  time: string;
+  price: number;
+  description: string;
+}
+
+const EventDetails: React.FC = () => {
   const LOCAL_URL = "http://localhost:8080";
   const { id } = useParams<{ id: string }>();
-  const [show, setShow] = useState<any>(null);
-  const [startDate] = useState<Date>(new Date("2025-03-01T00:00:00"));  // Start date: 2025-03-01
-  const [deadline, setDeadline] = useState<Date>(new Date());  // This will be updated after fetching event details
-
+  const [show, setShow] = useState<Show | null>(null);
+  const [startDate] = useState<Date>(new Date("2025-03-01T00:00:00"));
+  const [deadline, setDeadline] = useState<Date>(new Date());
   const [ticketCount, setTicketCount] = useState<number>(0);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+
   const totalPrice = ticketCount * (show?.price || 0);
 
   const handleTicketChange = (increment: number) => {
     setTicketCount(prev => Math.max(0, prev + increment));
+  };
+
+  const handleConfirmPurchase = (phoneNumber: string) => {
+    console.log(`Purchase confirmed! Phone: ${phoneNumber}, Tickets: ${ticketCount}, Total: ${totalPrice} ₮`);
+    setIsModalOpen(false);
   };
 
   useEffect(() => {
@@ -72,8 +91,7 @@ const EventDetails = () => {
         const data = await response.json();
         setShow(data);
 
-        // Set the deadline based on the event's date and time
-        const deadlineDate = new Date(`${data.date}T${data.time || "18:00:00"}`);  // Default time: 18:00 if no time is provided
+        const deadlineDate = new Date(`${data.date}T${data.time || "18:00:00"}`);
         setDeadline(deadlineDate);
       } catch (error) {
         console.error(error);
@@ -89,13 +107,11 @@ const EventDetails = () => {
       </div>
     );
   }
-  
 
   return (
     <>
       <Header />
       <main className="max-w-7xl mx-auto p-4 sm:p-8 grid lg:grid-cols-2 gap-8 bg-gray-50 min-h-screen">
-        {/* Event Details */}
         <section className="bg-white rounded-3xl shadow-lg p-6 border border-gray-100">
           <img
             src={"/" + show.imageUrl}
@@ -116,7 +132,7 @@ const EventDetails = () => {
             </div>
             <div className="bg-purple-50 border border-purple-200 p-4 rounded-xl shadow-sm">
               <p className="text-gray-500">🎵 Тоглолт эхлэх</p>
-              <p className="text-lg font-semibold text-gray-900">{show.time.slice(0,5)}</p>
+              <p className="text-lg font-semibold text-gray-900">{show.time.slice(0, 5)}</p>
             </div>
             <div className="bg-purple-50 border border-purple-200 p-4 rounded-xl shadow-sm">
               <p className="text-gray-500">🕛 Дуусах</p>
@@ -129,7 +145,6 @@ const EventDetails = () => {
           </p>
         </section>
 
-        {/* Ticket & Countdown */}
         <section className="space-y-6">
           <DeadlineProgressBar startDate={startDate} deadline={deadline} />
           <div className="bg-white rounded-3xl shadow-lg p-6 border border-gray-100">
@@ -156,6 +171,7 @@ const EventDetails = () => {
             </div>
 
             <button
+              onClick={() => setIsModalOpen(true)}
               className="w-full mt-6 py-3 bg-gradient-to-r from-purple-600 to-purple-700 text-white rounded-xl text-lg font-semibold hover:from-purple-700 hover:to-purple-800 transition-all"
             >
               Захиалах
@@ -164,6 +180,16 @@ const EventDetails = () => {
         </section>
       </main>
       <Footer />
+
+      <Modal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        title="Захиалга баталгаажуулах"
+        description={`Та ${ticketCount} ширхэг тасалбар захиалж байна. Нийт үнэ: ${totalPrice.toLocaleString()} ₮`}
+        showConfirm={true}
+        confirmText="Баталгаажуулах"
+        onConfirm={handleConfirmPurchase}
+      />
     </>
   );
 };

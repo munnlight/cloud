@@ -5,6 +5,7 @@ import Home from "./pages/Home";
 import EventDetails from "./pages/EventDetails";
 import MyTickets from "./pages/MyTickets";
 import AdminPanel from "./pages/AdminPanel";
+import SplashCursor from "./components/SplashCursor"
 
 function App() {
   // ======== ЗА Энд хэрэгтэй api хаягуудыг бичлээ ==============================================
@@ -31,6 +32,7 @@ function App() {
 
   return (
     <Router>
+      <SplashCursor />
       <div className="text-3xl">
         <Routes>
           <Route path="/" element={<Home />} />
