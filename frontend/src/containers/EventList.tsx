@@ -23,6 +23,7 @@ const EventList = () => {
         {shows.map((show: any) => (
           <EventCard
             key={show.id}
+            id={show.showId}
             title={show.title}
             date={show.date}
             image={show.imageUrl}
