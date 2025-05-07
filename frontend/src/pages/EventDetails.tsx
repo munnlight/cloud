@@ -1,24 +1,31 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Header from "../components/header";
 import Footer from "../components/footer";
 import BookingForm from "../components/BookingForm";
 import { useParams } from "react-router-dom";
-import { API_ENDPOINTS } from "../api/config";
 
 const EventDetails = () => {
+  // ======== ЗА Энд хэрэгтэй api хаягуудыг бичлээ ==============================================
+  const LOCAL_URL = "http://localhost:8080";
+  const HOST_URL = "https://cloud-zupn.onrender.com";
+  // ============================================================================================
   const { id } = useParams<{ id: string }>();
   const [show, setShow] = React.useState<any>(null);
 
   const fetchEventDetails = async () => {
-    const response = await fetch(API_ENDPOINTS.getShowById(id));
+    const response = await fetch(`${LOCAL_URL}/shows/${id}`);
     if (!response.ok) {
       throw new Error("Failed to fetch event details");
     }
     const data = await response.json();
-    console.log(data);
+    // console.log(data);
     setShow(data);
-    // Handle the event details data as needed
   };
+
+  useEffect(() => {
+    fetchEventDetails();
+  }, [id]);
+
   return (
     <>
       <Header />

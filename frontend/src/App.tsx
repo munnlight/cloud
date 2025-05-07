@@ -8,7 +8,12 @@ import AdminPanel from "./pages/AdminPanel";
 
 function App() {
   // ======== ЗА Энд хэрэгтэй api хаягуудыг бичлээ ==============================================
-
+  const LOCAL_URL = "http://localhost:8080";
+  const HOST_URL = "https://cloud-zupn.onrender.com";
+  const user = "/users";
+  const place = "/places";
+  const show = "/shows";
+  const ticket = "/tickets";
   // ============================================================================================
 
   const [data, setData] = useState<any[]>([]);
