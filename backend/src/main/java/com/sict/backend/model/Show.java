@@ -19,6 +19,7 @@ public class Show {
   private Date date;
   private String imageUrl;
   private String title;
+  private String time;
 
   @ManyToOne
   @JoinColumn(name = "plcid")
@@ -80,5 +81,13 @@ public class Show {
 
   public void setTitle(String title) {
     this.title = title;
+  }
+
+  public String getTime() {
+    return time;
+  }
+
+  public void setTime(String time) {
+    this.time = time;
   }
 }
