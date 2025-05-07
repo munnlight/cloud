@@ -20,6 +20,8 @@ public class Show {
   private String imageUrl;
   private String title;
   private String time;
+  private String description;
+  private int price;
 
   @ManyToOne
   @JoinColumn(name = "plcid")
@@ -59,6 +61,14 @@ public class Show {
     return name;
   }
 
+  public int getPrice() {
+    return price;
+  }
+
+  public void setPrice(int price) {
+    this.price = price;
+  }
+
   public Date getDate() {
     return date;
   }
@@ -69,6 +79,13 @@ public class Show {
 
   public String getImageUrl() {
     return imageUrl;
+  }
+  public String getDescription(){
+    return description;
+  }
+
+  public void setDescription(String description){
+    this.description = description;
   }
 
   public void setImageUrl(String imageUrl) {

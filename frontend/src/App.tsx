@@ -8,26 +8,26 @@ import AdminPanel from "./pages/AdminPanel";
 
 function App() {
   // ======== ЗА Энд хэрэгтэй api хаягуудыг бичлээ ==============================================
-  const LOCAL_URL = "http://localhost:8080";
-  const HOST_URL = "https://cloud-zupn.onrender.com";
-  const user = "/users";
-  const place = "/places";
-  const show = "/shows";
-  const ticket = "/tickets";
-  // ============================================================================================
+  // const LOCAL_URL = "http://localhost:8080";
+  // const HOST_URL = "https://cloud-zupn.onrender.com";
+  // const user = "/users";
+  // const place = "/places";
+  // const show = "/shows";
+  // const ticket = "/tickets";
+  // // ============================================================================================
 
-  const [data, setData] = useState<any[]>([]);
+  // const [data, setData] = useState<any[]>([]);
 
-  useEffect(() => {
-    const handleGet = async () => {
-      const response = await fetch(LOCAL_URL + user);
-      const data = await response.json();
-      console.log(data);
-      setData(data);
-    };
+  // useEffect(() => {
+  //   const handleGet = async () => {
+  //     const response = await fetch(LOCAL_URL + user);
+  //     const data = await response.json();
+  //     console.log(data);
+  //     setData(data);
+  //   };
 
-    handleGet();
-  }, []);
+  //   handleGet();
+  // }, []);
 
   return (
     <Router>
