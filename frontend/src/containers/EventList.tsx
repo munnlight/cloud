@@ -2,10 +2,15 @@ import React, { useEffect } from "react";
 import EventCard from "../components/EventCard";
 
 const EventList = () => {
+    // ======== ЗА Энд хэрэгтэй api хаягуудыг бичлээ ==============================================
+    const LOCAL_URL = "http://localhost:8080";
+    const HOST_URL = "https://cloud-zupn.onrender.com";
+
+
   const [shows, setShows] = React.useState<any[]>([]);
 
   const fetchShows = async () => {
-    const response = await fetch("https://cloud-zupn.onrender.com/shows");
+    const response = await fetch(`${LOCAL_URL}/shows`);
     const data = await response.json();
     console.log(data);
     setShows(data);

@@ -20,7 +20,7 @@ function App() {
 
   useEffect(() => {
     const handleGet = async () => {
-      const response = await fetch(HOST_URL + user);
+      const response = await fetch(LOCAL_URL + user);
       const data = await response.json();
       console.log(data);
       setData(data);
