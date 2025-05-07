@@ -20,6 +20,8 @@ public class Show {
   private String imageUrl;
   private String title;
   private String time;
+  private String description;
+  private int price;
 
   @ManyToOne
   @JoinColumn(name = "plcid")
@@ -27,6 +29,7 @@ public class Show {
   private Place place;
 
   @OneToMany(mappedBy = "show", cascade = CascadeType.ALL)
+  @JsonManagedReference
   private List<Ticket> tickets;
 
   public Show(String name, Date date, Place place) {
@@ -89,5 +92,21 @@ public class Show {
 
   public void setTime(String time) {
     this.time = time;
+  }
+
+  public String getDescription() {
+    return description;
+  }
+
+  public void setDescription(String description) {
+    this.description = description;
+  }
+
+  public int getPrice() {
+    return price;
+  }
+
+  public void setPrice(int price) {
+    this.price = price;
   }
 }
