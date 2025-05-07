@@ -13,7 +13,7 @@ public class Show {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private long show_id;
+  private long showId;
 
   private String name;
   private Date date;
@@ -51,7 +51,7 @@ public class Show {
   }
 
   public long getShowId() {
-    return show_id;
+    return showId;
   }
 
   public String getName() {

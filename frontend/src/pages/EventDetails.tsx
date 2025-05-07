@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import Header from '../components/header';
 import Footer from '../components/footer';
+import BookingForm from '../components/BookingForm';
+import { useParams } from 'react-router-dom';
 
 interface DeadlineProgressBarProps {
   deadline: Date;
@@ -36,20 +38,23 @@ const DeadlineProgressBar: React.FC<DeadlineProgressBarProps> = ({ deadline }) =
   }, [deadline]);
 
   return (
-    <div className="my-8 bg-white p-6 rounded-2xl shadow-lg">
-      <p className="text-gray-900 font-bold text-xl mb-3">⏳ Үлдсэн хугацаа</p>
-      <div className="w-full h-5 bg-gray-200 rounded-full overflow-hidden">
+    <div className="bg-white p-6 rounded-2xl shadow-lg border border-gray-100">
+      <p className="text-lg font-semibold text-gray-900 mb-2">⏳ Үлдсэн хугацаа</p>
+      <div className="w-full h-4 bg-gray-200 rounded-full overflow-hidden mb-2">
         <div
-          className="h-full bg-gradient-to-r from-purple-500 to-purple-700 transition-all duration-1000 ease-linear"
+          className="h-full bg-gradient-to-r from-purple-500 to-purple-700 transition-all duration-500"
           style={{ width: `${percentage}%` }}
         />
       </div>
-      <p className="mt-3 text-base text-gray-700 font-medium">{timeLeftText}</p>
+      <p className="text-sm text-gray-700">{timeLeftText}</p>
     </div>
   );
 };
 
-const EventDetails: React.FC = () => {
+const EventDetails = () => {
+  const LOCAL_URL = "http://localhost:8080";
+  const { id } = useParams<{ id: string }>();
+  const [show, setShow] = useState<any>(null);
   const deadline = new Date('2025-05-10T18:00:00');
   const [bZoneTickets, setBZoneTickets] = useState<number>(0);
   const [cZoneTickets, setCZoneTickets] = useState<number>(0);
@@ -62,82 +67,96 @@ const EventDetails: React.FC = () => {
     }
   };
 
+  useEffect(() => {
+    const fetchEventDetails = async () => {
+      try {
+        const response = await fetch(`${LOCAL_URL}/shows/${id}`);
+        if (!response.ok) {
+          throw new Error("Failed to fetch event details");
+        }
+        const data = await response.json();
+        setShow(data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchEventDetails();
+  }, [id]);
+
+  if (!show) {
+    return <p className="text-center mt-20 text-gray-600">Тоглолтын мэдээлэл ачааллаж байна...</p>;
+  }
+
   return (
     <>
       <Header />
-      <main className="max-w-7xl mx-auto p-4 sm:p-8 grid lg:grid-cols-2 gap-8 bg-gray-100 min-h-screen">
-        {/* Left Section: Event Image and Details */}
-        <section className="bg-white rounded-2xl shadow-xl p-6">
+      <main className="max-w-7xl mx-auto p-4 sm:p-8 grid lg:grid-cols-2 gap-8 bg-gray-50 min-h-screen">
+        {/* Event Details */}
+        <section className="bg-white rounded-3xl shadow-lg p-6 border border-gray-100">
           <img
-            src="/boldbaatar.png"
-            alt="Jazz Night"
-            className="w-full h-64 object-cover rounded-xl mb-6"
+            src={"/" + show.imageUrl}
+            alt={show.name}
+            className="w-full h-64 object-cover rounded-2xl mb-6"
           />
-          <div className="flex flex-wrap gap-3 mb-6">
-            <span className="bg-purple-100 text-purple-800 text-sm px-4 py-2 rounded-full font-medium">🎶 Music</span>
-            <span className="bg-purple-100 text-purple-800 text-sm px-4 py-2 rounded-full font-medium">👤 MONADD</span>
-            <span className="bg-purple-100 text-purple-800 text-sm px-4 py-2 rounded-full font-medium">📍 AIC Steppe Arena</span>
-            <span className="bg-purple-100 text-purple-800 text-sm px-4 py-2 rounded-full font-medium">🗓 2025-05-17</span>
-            <span className="bg-purple-100 text-purple-800 text-sm px-4 py-2 rounded-full font-medium">🕘 21:00</span>
+          <div className="flex flex-wrap gap-3 mb-5 text-sm">
+            <span className="bg-purple-100 text-purple-800 px-4 py-1 rounded-full font-medium">👤 {show.name}</span>
+            <span className="bg-purple-100 text-purple-800 px-4 py-1 rounded-full font-medium">📍 {show.place.name}</span>
+            <span className="bg-purple-100 text-purple-800 px-4 py-1 rounded-full font-medium">🗓 {show.date}</span>
+            <span className="bg-purple-100 text-purple-800 px-4 py-1 rounded-full font-medium">🕘 21:00</span>
           </div>
-          <h2 className="text-2xl font-bold text-gray-900 mb-3">Mxrn1ngstar Live at AIC Steppe Arena</h2>
-          <ul className="text-base text-gray-700 list-disc list-inside space-y-2 mb-4">
+          <h2 className="text-2xl font-bold text-gray-900 mb-3">{show.title}</h2>
+          <ul className="list-disc list-inside text-gray-700 mb-4">
             <li>Үүд нээх: 18:00</li>
             <li>Тоглолт эхлэх: 21:00</li>
             <li>Дуусах: 23:30</li>
           </ul>
-          <p className="text-base text-red-600 font-semibold">A zone, VIP zone – зарагдаж дууссан.</p>
+          <p className="text-base text-red-600 font-medium">A zone, VIP zone – зарагдаж дууссан.</p>
         </section>
 
-        {/* Right Section: Countdown and Ticket Booking */}
+        {/* Ticket and Countdown */}
         <section className="space-y-6">
           <DeadlineProgressBar deadline={deadline} />
-          <div className="bg-white rounded-2xl shadow-xl p-6">
-            <p className="text-2xl font-bold text-gray-900 mb-6">🎫 Тасалбар захиалах</p>
+          <div className="bg-white rounded-3xl shadow-lg p-6 border border-gray-100">
+            <p className="text-xl font-bold text-gray-900 mb-6">🎫 Тасалбар захиалах</p>
             <div className="space-y-6">
               {/* B Zone */}
               <div className="flex justify-between items-center">
-                <span className="text-lg text-gray-800 font-semibold">B zone</span>
+                <span className="text-lg font-medium text-gray-800">B zone</span>
                 <div className="flex items-center space-x-3">
                   <button
                     onClick={() => handleTicketChange('B', -1)}
-                    className="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300 transition-colors"
-                  >
-                    −
-                  </button>
-                  <span className="w-10 text-center text-lg font-medium">{bZoneTickets}</span>
+                    className="w-9 h-9 bg-gray-200 rounded-full hover:bg-gray-300 text-lg font-bold"
+                  >−</button>
+                  <span className="w-10 text-center">{bZoneTickets}</span>
                   <button
                     onClick={() => handleTicketChange('B', 1)}
-                    className="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300 transition-colors"
-                  >
-                    ＋
-                  </button>
+                    className="w-9 h-9 bg-gray-200 rounded-full hover:bg-gray-300 text-lg font-bold"
+                  >＋</button>
                 </div>
-                <span className="text-lg text-gray-900 font-semibold">89,000 ₮</span>
+                <span className="text-lg font-semibold text-gray-900">89,000 ₮</span>
               </div>
 
               {/* C Zone */}
               <div className="flex justify-between items-center">
-                <span className="text-lg text-gray-800 font-semibold">C zone</span>
+                <span className="text-lg font-medium text-gray-800">C zone</span>
                 <div className="flex items-center space-x-3">
                   <button
                     onClick={() => handleTicketChange('C', -1)}
-                    className="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300 transition-colors"
-                  >
-                    −
-                  </button>
-                  <span className="w-10 text-center text-lg font-medium">{cZoneTickets}</span>
+                    className="w-9 h-9 bg-gray-200 rounded-full hover:bg-gray-300 text-lg font-bold"
+                  >−</button>
+                  <span className="w-10 text-center">{cZoneTickets}</span>
                   <button
                     onClick={() => handleTicketChange('C', 1)}
-                    className="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300 transition-colors"
-                  >
-                    ＋
-                  </button>
+                    className="w-9 h-9 bg-gray-200 rounded-full hover:bg-gray-300 text-lg font-bold"
+                  >＋</button>
                 </div>
-                <span className="text-lg text-gray-900 font-semibold">59,000 ₮</span>
+                <span className="text-lg font-semibold text-gray-900">59,000 ₮</span>
               </div>
             </div>
-            <button className="w-full py-3 mt-6 bg-gradient-to-r from-purple-600 to-purple-700 text-white text-lg font-semibold rounded-xl hover:from-purple-700 hover:to-purple-800 transition-all">
+
+            <button
+              className="w-full mt-6 py-3 bg-gradient-to-r from-purple-600 to-purple-700 text-white rounded-xl text-lg font-semibold hover:from-purple-700 hover:to-purple-800 transition-all"
+            >
               Захиалах
             </button>
           </div>
