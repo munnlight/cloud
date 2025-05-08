@@ -3,7 +3,9 @@ import Header from '../components/header';
 import Footer from '../components/footer';
 import { useParams } from 'react-router-dom';
 import Modal from '../components/Modal';
-import TrueFocus from '../components/TrueFocus';
+import { useNavigate } from 'react-router-dom';
+
+// import TrueFocus from '../components/TrueFocus';
 
 interface DeadlineProgressBarProps {
   startDate: Date;
@@ -72,7 +74,9 @@ const EventDetails: React.FC = () => {
   const [deadline, setDeadline] = useState<Date>(new Date());
   const [ticketCount, setTicketCount] = useState<number>(0);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState<boolean>(false); // ✅ FIXED
+  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState<boolean>(false);
+  const navigate = useNavigate();
+
 
   const totalPrice = ticketCount * (show?.price || 0);
 
@@ -99,6 +103,7 @@ const EventDetails: React.FC = () => {
         setDeadline(deadlineDate);
       } catch (error) {
         console.error(error);
+        alert("Event details could not be loaded.");
       }
     };
     fetchEventDetails();
@@ -199,13 +204,14 @@ const EventDetails: React.FC = () => {
 
       <Modal
         isOpen={isSuccessModalOpen}
-        onClose={() => setIsSuccessModalOpen(false)}
-        title="Амжилттай"
-        description="Захиалга амжилттай"
-        onlyOk={true}
+        onClose={() => {
+          setIsSuccessModalOpen(false);
+          navigate('/'); // Redirect to home page
+        }}
+        title="Амжилттай захиалга"
+        description="Таны захиалга амжилттай баталгаажлаа!"
+        showConfirm={false}
       />
-
-
 
     </>
   );

@@ -29,6 +29,7 @@ public class Show {
   private Place place;
 
   @OneToMany(mappedBy = "show", cascade = CascadeType.ALL)
+  @JsonManagedReference
   private List<Ticket> tickets;
 
   public Show(String name, Date date, Place place) {
@@ -61,14 +62,6 @@ public class Show {
     return name;
   }
 
-  public int getPrice() {
-    return price;
-  }
-
-  public void setPrice(int price) {
-    this.price = price;
-  }
-
   public Date getDate() {
     return date;
   }
@@ -79,13 +72,6 @@ public class Show {
 
   public String getImageUrl() {
     return imageUrl;
-  }
-  public String getDescription(){
-    return description;
-  }
-
-  public void setDescription(String description){
-    this.description = description;
   }
 
   public void setImageUrl(String imageUrl) {
@@ -106,5 +92,21 @@ public class Show {
 
   public void setTime(String time) {
     this.time = time;
+  }
+
+  public String getDescription() {
+    return description;
+  }
+
+  public void setDescription(String description) {
+    this.description = description;
+  }
+
+  public int getPrice() {
+    return price;
+  }
+
+  public void setPrice(int price) {
+    this.price = price;
   }
 }
