@@ -70,6 +70,7 @@ interface Show {
 
 const EventDetails: React.FC = () => {
   const LOCAL_URL = "http://localhost:8080";
+  const HOST_URL = "https://cloud-zupn.onrender.com";
   const { id } = useParams<{ id: string }>();
   const [show, setShow] = useState<Show | null>(null);
   const [startDate] = useState<Date>(new Date("2025-03-01T00:00:00"));
@@ -94,7 +95,7 @@ const EventDetails: React.FC = () => {
   useEffect(() => {
     const fetchEventDetails = async () => {
       try {
-        const response = await fetch(`${LOCAL_URL}/shows/${id}`);
+        const response = await fetch(`${HOST_URL}/shows/${id}`);
         if (!response.ok) throw new Error("Failed to fetch event details");
         const data = await response.json();
         setShow(data);
