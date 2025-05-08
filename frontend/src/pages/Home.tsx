@@ -18,21 +18,22 @@ const Home = () => {
   };
 
   return (
+    
     <>
       <Header />
 
       <Slider {...settings}>
         <div className="w-full h-[400px] relative overflow-hidden">
-          <img src="jimmy.jpg" alt="Slide 1" className="w-full h-full object-cover" />
+          <img src="boldbaatar.png" alt="Slide 1" className="w-full h-full object-cover" />
         </div>
         <div className="w-full h-[400px] relative overflow-hidden">
-          <img src="11.jpg" alt="Slide 2" className="w-full h-full object-cover" />
+          <img src="zuniizugaa.jpg" alt="Slide 2" className="w-full h-full object-cover" />
         </div>
         <div className="w-full h-[400px] relative overflow-hidden">
-          <img src="22.jpg" alt="Slide 3" className="w-full h-full object-cover" />
+          <img src="morningstar.png" alt="Slide 3" className="w-full h-full object-cover" />
         </div>
         <div className="w-full h-[400px] relative overflow-hidden">
-          <img src="33.jpeg" alt="Slide 4" className="w-[600px] h-full object-cover" />
+          <img src="gangbay.jpg" alt="Slide 4" className="w-full h-full object-cover" />
         </div>
       </Slider>
 

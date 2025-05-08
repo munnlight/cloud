@@ -3,6 +3,7 @@ import Header from '../components/header';
 import Footer from '../components/footer';
 import { useParams } from 'react-router-dom';
 import Modal from '../components/Modal';
+import TrueFocus from '../components/TrueFocus';
 
 interface DeadlineProgressBarProps {
   startDate: Date;
@@ -71,6 +72,7 @@ const EventDetails: React.FC = () => {
   const [deadline, setDeadline] = useState<Date>(new Date());
   const [ticketCount, setTicketCount] = useState<number>(0);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState<boolean>(false); // ✅ FIXED
 
   const totalPrice = ticketCount * (show?.price || 0);
 
@@ -78,9 +80,11 @@ const EventDetails: React.FC = () => {
     setTicketCount(prev => Math.max(0, prev + increment));
   };
 
-  const handleConfirmPurchase = (phoneNumber: string) => {
-    console.log(`Purchase confirmed! Phone: ${phoneNumber}, Tickets: ${ticketCount}, Total: ${totalPrice} ₮`);
+  const handleConfirmPurchase = () => {
     setIsModalOpen(false);
+    setTimeout(() => {
+      setIsSuccessModalOpen(true);
+    }, 300);
   };
 
   useEffect(() => {
@@ -150,7 +154,7 @@ const EventDetails: React.FC = () => {
           <div className="bg-white rounded-3xl shadow-lg p-6 border border-gray-100">
             <p className="text-xl font-bold text-gray-900 mb-6">🎫 Тасалбар захиалах</p>
             <div className="flex justify-between items-center mb-4">
-              <span className="text-lg font-medium text-gray-800">Ердийн тасалбар</span>
+              <span className="text-lg font-medium text-gray-800">Тасалбар</span>
               <div className="flex items-center space-x-3">
                 <button
                   onClick={() => handleTicketChange(-1)}
@@ -172,10 +176,12 @@ const EventDetails: React.FC = () => {
 
             <button
               onClick={() => setIsModalOpen(true)}
-              className="w-full mt-6 py-3 bg-gradient-to-r from-purple-600 to-purple-700 text-white rounded-xl text-lg font-semibold hover:from-purple-700 hover:to-purple-800 transition-all"
+              disabled={ticketCount === 0} // Disable the button if ticketCount is 0
+              className={`w-full mt-6 py-3 ${ticketCount === 0 ? 'bg-gray-400' : 'bg-gradient-to-r from-purple-600 to-purple-700'} text-white rounded-xl text-lg font-semibold hover:from-purple-700 hover:to-purple-800 transition-all`}
             >
               Захиалах
             </button>
+
           </div>
         </section>
       </main>
@@ -190,6 +196,17 @@ const EventDetails: React.FC = () => {
         confirmText="Баталгаажуулах"
         onConfirm={handleConfirmPurchase}
       />
+
+      <Modal
+        isOpen={isSuccessModalOpen}
+        onClose={() => setIsSuccessModalOpen(false)}
+        title="Амжилттай"
+        description="Захиалга амжилттай"
+        onlyOk={true}
+      />
+
+
+
     </>
   );
 };

@@ -32,7 +32,7 @@ function App() {
 
   return (
     <Router>
-      <SplashCursor />
+      {/* <SplashCursor /> */}
       <div className="text-3xl">
         <Routes>
           <Route path="/" element={<Home />} />
