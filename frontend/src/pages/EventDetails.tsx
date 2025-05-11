@@ -67,7 +67,7 @@ interface Show {
 }
 
 const EventDetails: React.FC = () => {
-  const LOCAL_URL = "http://localhost:8080";
+  const LOCAL_URL = "https://cloud-zupn.onrender.com";
   const { id } = useParams<{ id: string }>();
   const [show, setShow] = useState<Show | null>(null);
   const [startDate] = useState<Date>(new Date("2025-03-01T00:00:00"));
